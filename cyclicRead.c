@@ -21,7 +21,7 @@ int main()
 	if( mem == NULL )
 	{
 		perror("Can't mmap");
-		return -1;
+		return 1;
 	}
     
     uint64_t pos = mem->pos;
