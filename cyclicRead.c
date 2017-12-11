@@ -26,8 +26,8 @@ int main()
 	}
     
     uint64_t position = memory->position;
-    uint32_t seed;
-    uint32_t true_seed;
+    uint64_t seed;
+    uint64_t true_seed;
 	printf("starting at %ld\n", position);
     int i=0;
     while(true){
