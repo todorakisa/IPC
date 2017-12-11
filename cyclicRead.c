@@ -22,7 +22,7 @@ int main()
 	if( memory == NULL )
 	{
 		perror("Can't mmap");
-		return -1;
+		return 1;
 	}
     
     uint64_t position = memory->position;
