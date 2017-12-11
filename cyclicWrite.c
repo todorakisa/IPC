@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "cyclicBuf.h"
 #include "gen.h"
+#include "gen.c"
 
 int main()
 {
@@ -18,28 +19,28 @@ int main()
 		return 1;
 	}
 
-	int res;
-	res = ftruncate( memFd, sizeof(struct cyclic_buf) );
-	if( res == -1 )
+	int resize;
+	resize = ftruncate( memFd, sizeof(struct buffer) );
+	if( resize == -1 )
 	{
 		perror("Can't truncate file");
-		return res;
+		return resize;
 	}
 	
-	struct cyclic_buf* mem = mmap( NULL, sizeof(struct cyclic_buf), PROT_READ | PROT_WRITE, MAP_SHARED, memFd, 0 );
-	if( mem == NULL )
+	struct buffer* memory = mmap( NULL, sizeof(struct buffer), PROT_READ | PROT_WRITE, MAP_SHARED, memFd, 0 );
+	if( memory == NULL )
 	{
 		perror("Can't mmap");
 		return -1;
 	}
 	
-    mem->pos = 0;
+    memory->position = 0;
     uint32_t seed = 0;
-    while(1) {
-		generate((void*)mem->array[mem->pos], seed);
-		printf("Generate: array[%d] - seed: %d\n", mem->pos,seed);
-		mem->pos++;
-		mem->pos %= _BLOCK_COUNT;
+    while(true) {
+		generate((void*)memory->array[memory->position], seed);
+		printf("Generate: array[%ld] - seed: %d\n", memory->position,seed);
+		memory->position++;
+		memory->position %= COUNT;
 		seed++;
     }
 

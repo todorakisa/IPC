@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include "gen.h"
+#include "gen.c"
 #include "cyclicBuf.h"
 
 
@@ -17,23 +18,22 @@ int main()
 		return 1;
 	}
 
-	struct cyclic_buf* mem = mmap( NULL, sizeof(struct cyclic_buf), PROT_READ, MAP_SHARED, memFd, 0 );
-	if( mem == NULL )
+	struct buffer* memory = mmap( NULL, sizeof(struct buffer), PROT_READ, MAP_SHARED, memFd, 0 );
+	if( memory == NULL )
 	{
 		perror("Can't mmap");
 		return -1;
 	}
     
-    uint64_t pos = mem->pos;
+    uint64_t position = memory->position;
     uint32_t seed;
-	printf("starting at %ld\n", pos);
+	printf("starting at %ld\n", position);
     while(true){
-        if(mem -> pos == pos){
-            continue;
+        while(memory -> position != position){
+            printf("Veryfy array[%ld] - seed:%ld\n",position,verify((void *)memory->array[position]));
+            position ++;
+            position %=COUNT;
         }
-        printf("Veryfy array[%ld] - seed:%ld\n",pos,verify((void *)mem->array[pos]));
-        pos ++;
-        pos %=_BLOCK_COUNT;
     }
     
     
