@@ -32,21 +32,24 @@ int main()
     int i=0;
     while(true){
         while(memory -> position != position){
-	    seed = verify((void *)memory->array[position %=COUNT]);
-	    if(seed==-1){
-		printf("Error in verify\n");
-	    }
-	    if(i=0){
-        	true_seed=seed;
-            i = 1;
-	    }else if(true_seed + 1 == seed){
-	        printf("Error in seed");
-	    }else{
-       		true_seed++;
-	    }
-            printf("Veryfy array[%ld] - seed:%d\n",position,seed);
+	        seed = verify((void *)memory->array[position %=COUNT]);
+	        if(seed==-1){
+		        printf("Error in verify\n");
+	        }
+	        if(memory->position > position + COUNT ){
+	            printf("Preskachane");
+	            return 1;
+	        }
+	        if(i=0){
+            	true_seed=seed;
+                i = 1;
+	        }else if(true_seed + 1 == seed){
+	            printf("Error in seed");
+	        }else{
+           		true_seed++;
+	        }
+            printf("Veryfy array[%ld] - seed:%d\n",position %=COUNT,seed);
             position ++;
-            position %=COUNT;
         }
     }  
 	return 0;
