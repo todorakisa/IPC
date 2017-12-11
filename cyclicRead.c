@@ -26,26 +26,28 @@ int main()
 	}
     
     uint64_t position = memory->position;
-    uint32_t seed = 0;
-    uint32_t true_seed = seed;
+    uint32_t seed;
+    uint32_t true_seed;
 	printf("starting at %ld\n", position);
     int i=0;
     while(true){
-        while(memory -> position != position)
+        while(memory -> position != position){
 	    seed = verify((void *)memory->array[position]);
-	    if(i == 0){
-		    true_seed = seed;
-    	    }else if(true_seed + 1 != seed){
-            	printf("Error");
+	    if(seed==-1){
+		printf("Error in verify\n");
 	    }
-	    true_seed++;
-	    i = 1;
-            printf("Veryfy array[%ld] - seed:%ld\n",position,seed);
+	    if(i=0){
+            true_seed=seed;
+            i = 1;
+	    }else if(true_seed + 1 == seed){
+	        printf("Error in seed");
+	    }else{
+            true_seed++;
+	    }
+            printf("Veryfy array[%ld] - seed:%d\n",position,seed);
             position ++;
             position %=COUNT;
         }
-    }
-    
-    
+    }  
 	return 0;
 }
