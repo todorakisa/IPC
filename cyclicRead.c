@@ -36,7 +36,7 @@ int main()
 	        if(seed==-1){
 		        printf("Error in verify\n");
 	        }
-	        if(memory->position > position + COUNT ){
+	        if(memory->position >= position + COUNT ){
 	            printf("Preskachane");
 	            return 1;
 	        }
