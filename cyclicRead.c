@@ -40,15 +40,16 @@ int main()
 	            printf("Preskachane");
 	            return 1;
 	        }
-	        if(i=0){
+	        if(i==0){
             	true_seed=seed;
                 i = 1;
-	        }else if(true_seed + 1 == seed){
-	            printf("Error in seed");
+	        }else if(true_seed + 1 != seed){
+	            printf("Error in seed\n");
+	            return 1;
 	        }else{
            		true_seed++;
 	        }
-            printf("Veryfy array[%ld] - seed:%d\n",position %=COUNT,seed);
+            printf("Veryfy array[%ld] - seed:%ld\n",position %=COUNT,seed);
             position ++;
         }
     }  
